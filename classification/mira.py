@@ -60,6 +60,9 @@ class MiraClassifier:
         datum is a counter from features to values for those features
         representing a vector of values.
         """
+        util.raiseNotDefined()
+        
+        """
         highestWeights = {}
         highestAccurary = None
 
@@ -75,10 +78,14 @@ class MiraClassifier:
                             bestScore = score
                             bestLabel = k
                 actualLabel = trainingLabels[i]
+
                 if bestLabel != actualLabel:
+         """
                     #not sure
+
         
             #check accuracy
+            
 
                             
                     
