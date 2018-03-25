@@ -100,7 +100,8 @@ def enhancedFeatureExtractorDigit(datum):
             column += 1
         iteration += 1
     
-    width 
+    #width 
+    #TODO
 
     return features
 
@@ -145,6 +146,23 @@ def enhancedPacmanFeatures(state, action):
     It should return a counter with { <feature name> : <feature value>, ... }
     """
     features = util.Counter()
+    features["STOP"] = int(action == Directions.STOP) * 100
+    
+    succ = state.generateSuccessor(0, action)
+    food = state.getFood()
+
+    spaces = succ.getCapsules()
+    pos = succ.getPacmanPosition()
+    enemies = succ.getGhostPosition()
+    """
+
+    #nextEnemy = sorted([util.manhattanDistance(pos, i) for i in enemies]) 
+    for i in enemies:
+        temp = list[util.manhattanDistance(pos, i)]
+    nextEnemy = sorted [temp]
+
+    features["nearest_ghost"] = nextEnemy[0] * 1.0
+    """
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
     return features
