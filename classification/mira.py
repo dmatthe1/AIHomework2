@@ -59,8 +59,6 @@ class MiraClassifier:
         the classify method works correctly. Also, recall that a
         datum is a counter from features to values for those features
         representing a vector of values.
-        """
-        util.raiseNotDefined()
         
         """
         highestWeights = {}
@@ -72,20 +70,15 @@ class MiraClassifier:
                 for j, data in enumerate(trainingData):
                     bestScore = None
                     bestLabel = None
-                    for k in self.legal labels:
+                    for k in self.legalLabels:
                         score = data * weights[k]
-                        if(score > bestScore or bestScore is None):
+                        if(bestScore is None or score > bestScore):
                             bestScore = score
                             bestLabel = k
                 actualLabel = trainingLabels[i]
 
                 if bestLabel != actualLabel:
-         """
-                    #not sure
-                    #TODO
-
-        
-            #check accuracy
+                    t = ((best    
             
 
                             
