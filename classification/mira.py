@@ -66,19 +66,27 @@ class MiraClassifier:
 
         for item in Cgrid:
             weights = self.weights.copy()
-            for i in range(self.max_iterations)#iterate through max iterations
+            for i in range(self.max_iterations):
+                #iterate through max iterations
                 for j, data in enumerate(trainingData):
                     bestScore = None
                     bestLabel = None
                     for k in self.legalLabels:
-                        score = data * weights[k]
+                        score = data * self.weights[k]
                         if(bestScore is None or score > bestScore):
                             bestScore = score
                             bestLabel = k
-                actualLabel = trainingLabels[i]
+                    actualLabel = trainingLabels[j]
 
-                if bestLabel != actualLabel:
-                    t = ((best    
+                    if bestLabel != actualLabel:
+                        f = trainingData[j]
+                        fCopy = f.copy()
+                        t = ((self.weights[bestLabel] - self.weights[actualLabel])*f+1.0)/(2*(f * f))
+                        t = min(item, t)
+                        for l in fCopy:
+                            fCopy[l] = fCopy[l] * t
+                        self.weights[bestLabel] -= fCopy
+                        self.weights[actualLabel] += fCopy
             
 
                             
