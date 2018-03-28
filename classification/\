@@ -67,6 +67,7 @@ class MiraClassifier:
         
         for item in Cgrid:
             for i in range(self.max_iterations):
+                #iterate through max iterations
                 for j, data in enumerate(trainingData):
                     bestScore = None
                     bestLabel = None
@@ -78,10 +79,14 @@ class MiraClassifier:
                     actualLabel = trainingLabels[j]
 
                     if bestLabel != actualLabel:
+                        #f = trainingData[j]
                         f = data.copy()
+                        #fCopy = f.copy()
                         temp = ((self.weights[bestLabel] - self.weights[actualLabel])*f+1.0) / (2.0*(f * f))
-                        t = min(0.009, temp)
+                        t = min(0.006, temp)
                         f.divideAll(1.0 / t)
+                        #for l in fCopy:
+                        #    fCopy[l] = fCopy[l] * t
                         self.weights[bestLabel] -= f
                         self.weights[actualLabel] += f
             
@@ -97,6 +102,10 @@ class MiraClassifier:
                 highestWeights = self.weights.copy()
 
         self.weights = highestWeights
+        #TODO-find out why this ^ make the accuracies so low
+        #best weights is being updated incorrectly
+        #TODO-make accuracies higher
+                
             
 
     def classify(self, data):
