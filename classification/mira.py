@@ -61,9 +61,10 @@ class MiraClassifier:
         representing a vector of values.
         
         """
-        highestWeights = {}
-        highestAccurary = None
 
+        highestWeights = {}
+        highestAccuracy = None
+        
         for item in Cgrid:
             weights = self.weights.copy()
             for i in range(self.max_iterations):
@@ -79,20 +80,35 @@ class MiraClassifier:
                     actualLabel = trainingLabels[j]
 
                     if bestLabel != actualLabel:
-                        f = trainingData[j]
-                        fCopy = f.copy()
-                        t = ((self.weights[bestLabel] - self.weights[actualLabel])*f+1.0)/(2*(f * f))
-                        t = min(item, t)
-                        for l in fCopy:
-                            fCopy[l] = fCopy[l] * t
-                        self.weights[bestLabel] -= fCopy
-                        self.weights[actualLabel] += fCopy
+                        #f = trainingData[j]
+                        f = data.copy()
+                        #fCopy = f.copy()
+                        temp = ((self.weights[bestLabel] - self.weights[actualLabel])*f+1.0) / (2.0*(f * f))
+                        t = min(item, temp)
+                        f.divideAll(1.0 / t)
+                        #for l in fCopy:
+                        #    fCopy[l] = fCopy[l] * t
+                        self.weights[bestLabel] -= f
+                        self.weights[actualLabel] += f
+            
+            guesses = self.classify(validationData)
+            correctGuesses = 0
+            for element, data in enumerate(guesses):
+                correctGuesses += (validationLabels[element] == data and 1.0 or 0.0)
+            accuracy = correctGuesses / len(guesses)
+
+            if highestAccuracy is None or accuracy > highestAccuracy:
+                highestAccuracy = accuracy
+                highestWeights = weights
+
+        #self.weights = highestWeights
+        #TODO-find out why this ^ make the accuracies so low
+        #best weights is being updated incorrectly
+        #TODO-make accuracies higher
+                
             
 
-                            
-                    
-
-    def classify(self, data ):
+    def classify(self, data):
         """
         Classifies each datum as the label that most closely matches the prototype vector
         for that label.  See the project description for details.
